@@ -1,0 +1,86 @@
+<?php include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/partials/nav.partial');?>
+<div id="wrapper">
+	<?php include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/partials/header.partial');?>
+	
+	<section>
+		<code>sX.animate([El]).setup([style object]).duration([animation duration]).ease("ease-in-out").end().pause().resume().stop().custom([property], [propertyValue])</code>
+		<h3>El</h3>
+		<p>element to animate</p>
+		<p>Could be element or CSS3 selector string</p>
+		<h3>style object</h3>
+		<code>
+			.setup({
+				width: "200px",
+				paddingTop: "50%",
+				transform: "go crazy @_o"
+			})
+		</code>
+		<h3>animation duration</h3>
+		<p>animation duration in millisecond</p>
+		<h3>ease</h3>
+		<p>animation timing, string here is fine</p>
+		<h2>Usages:</h2>
+		<p>
+			<code>var animation = sX.animate([El]).duration(5000).setup({width:"300px",paddingTop:"200px"}).end()</code><br>
+			<code>setTimeout(function(){animation.pause().custom("lineHeight","36px").resume()}, 1000);</code>
+		</p>
+		<h2>Examples:</h2>
+		<div id="testDiv"></div>
+		<div class="testControl">
+			<div class="input-group">
+				<span class="input-group-addon">width:</span>
+				<input type="text" class="widthTest form-control" value="200">
+			</div>
+			<br>
+			<div class="input-group">
+				<span class="input-group-addon">height:</span>
+				<input type="text" class="heightTest form-control" value="200">
+			</div>
+			<br>
+			<div class="input-group">
+				<span class="input-group-addon">duration:</span>
+				<input type="text" class="durationTest form-control" value="800">
+			</div>
+			<br>
+			<div class="input-group">
+				<span class="input-group-addon">ease:</span>
+				<input type="text" class="easeTest form-control" value="linear">
+			</div>
+			<br>
+			<button class="playTest btn btn-default">play</button>
+			<button class="pauseTest btn btn-default">pause</button>
+			<button class="resumeTest btn btn-default">resume</button>
+			<button class="stopTest btn btn-default">stop</button>
+		</div>
+	</section>
+	</div><!--Close Wrapper-->
+	<style>
+		#testDiv {
+			width: 100px;
+			height: 100px;
+			display: block;
+			background: green;
+			margin-bottom: 20px;
+		}
+	</style>
+	<script>
+		window.onload = function(){
+			var animation = sX.animate("#testDiv");
+			sX(".playTest").onclick = function(){
+				animation.setup({
+					width: sX(".widthTest").value,
+					height: sX(".heightTest").value,
+					duration: 
+				}).duration(sX(".durationTest").value).ease(sX(".easeTest").value).end();
+			}
+			sX(".pauseTest").onclick = function(){
+				animation.pause();
+			}
+			sX(".resumeTest").onclick = function(){
+				animation.resume();
+			}
+			sX(".stopTest").onclick = function(){
+				animation.stop();
+			}
+		}
+	</script>

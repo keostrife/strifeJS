@@ -1,0 +1,12 @@
+	<script src="<?php echo BASE; ?>/assets/js/jquery.js"></script>
+	<script src="<?php echo BASE; ?>/assets/js/strife.js"></script>
+	<script src="<?php echo BASE; ?>/assets/js/bootstrap.js"></script>
+	<script src="<?php echo BASE; ?>/assets/js/main.js"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function(){
+			Strife.init();
+		}, false);
+
+	</script>
+</body>
+</html>

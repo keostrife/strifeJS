@@ -1,0 +1,39 @@
+<?php include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/partials/nav.partial');?>
+<div id="wrapper">
+	<?php include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/partials/header.partial');?>
+	
+	<section>
+		<code>sX.move([El1]).into([El2])</code>
+		<h3>El1</h3>
+		<p>First element to move</p>
+		<p>Could be element or CSS3 selector string</p>
+		<h3>El2</h3>
+		<p>element to move into</p>
+		<p>Could be element or CSS3 selector string</p>
+		<h2>Usage:</h2>
+		<p>sX.move([El]) will return an object that can continue to be chained with further actions:</p>
+		<ul>
+			<li><code>sX.move([El1]).after([El2])</code> -> move 1 after 2</li>
+			<li><code>sX.move([El1]).before([El2])</code> -> move 1 before 2</li>
+			<li><code>sX.move([El]).toTop()</code> -> move el to top of the current parent</li>
+			<li><code>sX.move([El]).toBottom()</code> -> move el to bottom of the current parent</li>
+			<li><code>sX.move([El1]).toTopOf([El2])</code> -> move 1 to top of 2</li>
+			<li><code>sX.move([El1]).toBottomOf([El2])</code> -> move 1 to bottom of 2</li>
+			<li><code>sX.move([El1]).into([El2])</code> -> just an alias of .toBottomOf()</li>
+		</ul>
+		<p>call <code>.move()</code> to a normal HTMLElement will also return the object (part of DOM Extention)</p>
+		<p>HTMLElement and NodeList can add and remove class:</p>
+		<ul>
+			<li><code>sX([El]).hasClass("abc")</code></li>
+			<li><code>sX([El]).removeClass("abc")</code></li>
+			<li><code>sX([El]).addClass("abc")</code></li>
+			<li><code>sX([El]).toggleClass("abc")</code></li>
+			<li><code>sX([El]).clone()</code></li>
+			<li><code>sX([El]).isNodeList()</code></li>
+			<li><code>sX([El]).empty()</code></li>
+		</ul>
+		<h2>Examples: </h2>
+		<p><code>sX(".testElement:first-child").move().toTopOf("#testContainer")</code> -> will move first element with "testElement" class to the top of element with ID="testContainer"</p>
+		<p><code>sX.move(".testElement:first-child").into("#testContainer").toTop()</code> -> have the same effect with the one above, just extra steps</p>
+	</section>
+	</div><!--Close Wrapper-->

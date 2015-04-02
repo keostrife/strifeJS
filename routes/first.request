@@ -1,0 +1,48 @@
+<?php
+if($strife_request[1] == 'index.html' ||
+  	$strife_request[1] == '' ||
+	$strife_request[1] == 'index.php' ||
+	$strife_request[1] == 'home')
+{
+	$page_title = 'Home || StrifeJS';
+	include('application/templates/head.template');
+	include('application/views/home.view');
+	include('application/templates/foot.template');
+} else if ($strife_request[1] == 'selector') {
+	$page = "selector";
+	$pageDescription = "SELECTOR";
+	$page_title = 'Selector || StrifeJS';
+	include('application/templates/head.template');
+	include('application/views/selector.view');
+	include('application/templates/foot.template');
+} else if ($strife_request[1] == 'dom') {
+	$page = "dom";
+	$pageDescription = "DOM MANIPULATION";
+	$page_title = 'Dom Manipulation || StrifeJS';
+	include('application/templates/head.template');
+	include('application/views/dom.view');
+	include('application/templates/foot.template');
+} else if ($strife_request[1] == 'ajax') {
+	$page = "ajax";
+	$pageDescription = "AJAX";
+	$page_title = 'Ajax || StrifeJS';
+	include('application/templates/head.template');
+	include('application/views/ajax.view');
+	include('application/templates/foot.template');
+} else if ($strife_request[1] == 'animate') {
+	$page = "animate";
+	$pageDescription = "ANIMATE";
+	$page_title = 'Dom Manipulation || StrifeJS';
+	include('application/templates/head.template');
+	include('application/views/animate.view');
+	include('application/templates/foot.template');
+} else if ($strife_request[1] == 'tool') {
+	$page = "tool";
+	$pageDescription = "TOOLs";
+	$page_title = 'Tools || StrifeJS';
+	include('application/templates/head.template');
+	include('application/views/tool.view');
+	include('application/templates/foot.template');
+} else {
+	$strife->not_found_404();
+}

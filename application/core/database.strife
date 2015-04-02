@@ -1,0 +1,17 @@
+<?php
+	//database config
+	$db_use = 'local';
+	if($db_use == 'local'){
+		$db_hostname = "localhost";
+		$db_username = "";
+		$db_password = "";
+		$db_database = "root";
+	} else if($db_use == 'production') {
+		//server infos
+		$db_hostname = "localhost";
+		$db_username = "";
+		$db_password = "";
+		$db_database = "root";
+	}
+	
+?>

@@ -1,0 +1,11 @@
+<?php
+//set BASE of the application, for example: http://example.com/abc, base will be "/abc"
+//if the app is in root already, leave it "(blank)"
+define('BASE','');
+
+date_default_timezone_set('America/Toronto');
+
+
+
+//Dunno what this is @_o
+//header( 'P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"' );

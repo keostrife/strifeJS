@@ -1,0 +1,29 @@
+<?php
+	function slashAdd($string) {
+		if(!get_magic_quotes_gpc()){$string = addslashes($string);}
+		return $string;
+	};
+	function blog_summary( $content , $words) {
+	   $position = @strpos( $content, ' ', $words );
+	   if( $position ) {
+		  $content = substr( $content, 0, $position );
+	   }
+	   $content = nl2br( $content );
+	   $content .= '...';
+	
+		return $content;
+	};
+	function fixEST($string){
+		$stringIndx = strpos($string, "(");
+		return substr($string,0,$stringIndx);
+	};
+	
+	function dateFormat($strtotimeKeo) {
+		return date('D M d Y H:i:s O', $strtotimeKeo);
+	}
+
+	function base64image($base64_code){
+		$base64_code = str_replace(' ','+',$base64_code);
+		return base64_decode(substr($base64_code,22));
+	}
+?>

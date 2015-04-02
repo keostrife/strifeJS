@@ -1,0 +1,10 @@
+<?php include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/partials/nav.partial');?>
+<div id="wrapper">
+	<?php include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/partials/header.partial');?>
+	
+	<section>
+		<code>sX.ajax("/api/test.php", {method: "GET", async: false, data: {key: "value"}, callback: [callbackFn]})</code>
+		<h3>callbackFn</h3>
+		<p>callback function when response is the first argument</p>
+	</section>
+	</div><!--Close Wrapper-->

@@ -1,0 +1,112 @@
+<?php
+	class Authentication {
+		public function sessionIn($userID, $userName='Guest', $admin=null) {
+			//log user in, session of userName is optional
+			//if the user is an admin, use value 'yes' instead of TRUE... (just something to make it more strict)
+			//@params:
+			//userID
+			//user name (optional...)
+			//admin = 'yes' or null
+
+			$_SESSION['user'] = $userName;
+			//a check to see whether user using the same browser and device or not
+			$_SESSION['check'] = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT'].'SALT');
+			$_SESSION['userID'] = $userID; 
+			if(!isset($_SESSION['initiated'])){
+				//this one is to reset session id the first time failed to login... prevent a vulnerable in Session hjacking
+				session_regenerate_id();
+				$_SESSION['initiated'] = 1;
+			}
+			if($admin == 'yes'){
+				$_SESSION['admin'] = 'yes';
+			}
+			//this variable will be used later to manage the lifetime of the sessions
+			$_SESSION['timeout'] = time();
+		}
+
+		public function cookieIn($userID, $userName='Guest', $admin=NULL, $time=time()+60*60*24*30) {
+			//this method is used to save cookie, majorly when user check the "remember me" checkbox
+			//@params
+			//userID
+			//user name
+			//admin
+			//life time of the cookies
+
+			//cookies value are exactly the same as sessions
+			setcookie("user",$userName,$time);
+			setcookie("check",md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT'].'SALT'),$time);
+			setcookie("userID",$userID,$time);
+			if($admin == 'yes'){
+				setcookie("admin",'yes',$time);
+			}
+		}
+
+		public function isAuthorized($timeoutPeriod) {
+			//this method simply run a check through the sessions and cookies to log user in in the background
+			//@params
+			//life time of the sessions
+			if(isset($_SESSION['user']) && $_SESSION['check'] == md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT'].'SALT') && isset($_SESSION['userID']) && $_SESSION['initiated'] && isset($_SESSION['timeout'])){
+				if($_SESSION['timeout'] + $timeoutPeriod < time()){	
+					return false;
+				} else {
+					if(isset($_SESSION['user']) && $_SESSION['check'] == md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT'].'SALT') && isset($_SESSION['userID']) && $_SESSION['initiated']) {
+						return true;
+					} else {
+						session_regenerate_id();
+						return false;
+						
+					}
+				}
+			//check cookies after check sessions because when sessions are initialized, we don't need to check cookies everytime!
+			} else if (isset($_COOKIE['user']) && $_COOKIE['check'] == md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT'].'SALT') && isset($_COOKIE['userID']) ) {
+				//check if user locked
+				//in an application, admin often be able to lock or delete an account, so when users sign back in with their cookies, we need to check whether he's locked or not
+				global $dbk;
+				$query = $dbk->prepare('SELECT * FROM userDev WHERE userID=?');
+				$query->bindParam(1, $_COOKIE['userID']);
+				$query->execute();
+				if($query->rowCount() < 1){
+					return false;
+				} else {
+					$result = $query->fetch();
+					if($result['status'] != 'active'){
+						return false;
+					} else {
+						//user is active, initialize sessions so that we don't need to check cookies next times...
+						$_SESSION['user'] = $_COOKIE['user'];
+						$_SESSION['check'] = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT'].'SALT');
+						$_SESSION['userID'] = $_COOKIE['userID'];
+						$_SESSION['initiated'] = true;
+						if($_COOKIE['admin'] == 'yes'){
+							$_SESSION['admin'] = 'yes';
+						}
+						return true;
+					}
+				}
+			} else {
+				return false;
+			}
+		}
+		public function saltMD5($string) {
+			//this method is considered week, use php crypt() better...
+			$salt1 = '%$^$';
+			$salt2 = '*^__KEO';
+			return md5($salt1 . $string . $salt2);
+		}
+		public function cookieOut() {
+			//delete a bunch of cookies used for authentication, add more if you want
+			setcookie("user",'',time()-3600);
+			setcookie("check",'',time()-3600);
+			setcookie("userID",'',time()-3600);
+			setcookie("admin",'',time()-3600);
+		}
+		public function sessionOut() {
+			//delete all sessions, basically log user out
+			$_SESSION = array();
+			if(session_id() != '' || isset($_COOKIE[session_name()])) {
+				setcookie(session_name(), '', time() - 3600);
+				session_destroy();
+			}
+		}
+	}
+?>

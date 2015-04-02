@@ -1,0 +1,15 @@
+<?php include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/partials/nav.partial');?>
+<div id="wrapper">
+	<?php include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/partials/header.partial');?>
+	
+	<section>
+		<code>sX([CSS3Selector])</code>
+		<h3>CSS3Selector</h3>
+		<p>Like how u normally do it...</p>
+		<h2>Return</h2>
+		<p>Whether an instance of <strong>HTMLElement</strong> if only 1 element is found</p>
+		<p>or an instance of <strong>NodeList</strong> if more than 1 element is found</p>
+		<h2>Examples:</h2>
+		<code>sX(".testElement:nth-child(3)").style.width = "500px"</code>
+	</section>
+	</div><!--Close Wrapper-->

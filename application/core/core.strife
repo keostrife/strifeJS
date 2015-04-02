@@ -1,0 +1,98 @@
+<?php
+	require('config.strife');
+	
+	class Strife {
+		public function getRouteFloor($request_array){
+			$floorCount = count($request_array);
+			if($floorCount < 2) {
+				return 0;
+			} else if ($floorCount == 2) {
+				return 1;
+			} else {
+				if($request_array[$floorCount - 1] == ''){
+					return $floorCount - 2;
+				} else {
+					return $floorCount - 1;
+				}
+			}
+		}
+		public function getRequest($request_string) {
+			if(!strpos($request_string, '?')){
+				return $request_string;
+			} else {
+				$cutPos = strpos($request_string, '?');
+				return substr($request_string, 0, $cutPos);
+			}
+		}
+		public function cachePage($cachefile, $content, $timeout){
+			if(file_exists($cachefile) && (time() - $timeout< filemtime($cachefile))){
+				include($cachefile);
+		        echo "<!-- Cached ".date('jS F Y H:i', filemtime($cachefile))." -->";
+		        exit;
+			} else {
+				ob_start();
+				$content();
+				$fp = fopen($cachefile, 'w');
+				fwrite($fp, ob_get_contents());
+				fclose($fp);
+				ob_end_flush();
+			}
+		}
+		public function http_authentication($username, $password, $imports){
+
+
+			if (isset($_SERVER['PHP_AUTH_USER']) &&
+			isset($_SERVER['PHP_AUTH_PW'])) {
+				if ($_SERVER['PHP_AUTH_USER'] == $username &&
+				$_SERVER['PHP_AUTH_PW'] == $password) {
+
+					$imports();
+
+				} else {
+					header('WWW-Authenticate: Basic realm="Restricted Section"');
+					header('HTTP/1.0 401 Unauthorized');
+				}
+			}
+			else
+			{
+				header('WWW-Authenticate: Basic realm="Restricted Section"');
+				header('HTTP/1.0 401 Unauthorized');
+				die ("Please enter your username and password");
+			}
+
+		}
+		public function email($to,$from,$subject,$content){
+			$headers = "From: ".$from . "\n";
+			$headers .= "MIME-Version: 1.0" . "\n";
+			$headers .= "Content-type : text/html; characterset=iso-8859-1" . "\n";
+			$headers .= 'Reply-To: '.$from . "\n";
+			if(mail($to,$subject,$content,$headers)){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		public function cacheVar($key, $value) {
+			if($_SESSION['global'][$key] = serialize($value)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		public function loadVar($varName) {
+			if(isset($_SESSION['global'][$varName])){
+				return unserialize($_SESSION['global'][$varName]);
+			} else {
+				return false;
+			}
+		}
+		public function not_found_404() {
+			$this->cachePage('cache/404.html',function(){
+				header("HTTP/1.0 404 Not Found");
+				$strife_title = 'Strife || Page not found';
+				include('application/templates/head.template');
+				include('application/views/404.view');
+				include('application/templates/foot.template');
+			},60*10);
+		}
+	};

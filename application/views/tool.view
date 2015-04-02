@@ -1,0 +1,14 @@
+<?php include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/partials/nav.partial');?>
+<div id="wrapper">
+	<?php include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/partials/header.partial');?>
+	
+	<section>
+		<ul>
+			<li><code>sX.createCookie(name,value,days)</code></li>
+			<li><code>sX.readCookie(name)</code></li>
+			<li><code>sX.eraseCookie(name)</code></li>
+			<li><code>sX.nl2br(text)</code></li>
+			<li><code>sX.animationFrame(function)</code></li>
+		</ul>
+	</section>
+	</div><!--Close Wrapper-->

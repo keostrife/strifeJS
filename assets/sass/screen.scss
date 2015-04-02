@@ -1,0 +1,21 @@
+//===bootstrap
+@import "frame";
+@import "bootstrap";
+@import "main";
+
+// @import "compass/reset";
+//@import "compass/css3";
+
+
+
+//Go!!!!!!
+@include wrapper;
+body {
+	padding-top: 70px;
+}
+nav.navbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+}

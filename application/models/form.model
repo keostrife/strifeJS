@@ -1,0 +1,21 @@
+<?php
+	/*bootstrap
+	 *uncomment stuffs that u use
+	 */
+
+	//include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/libraries/utility.library');
+	//include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/helpers/authentication.helper');
+	include($_SERVER['DOCUMENT_ROOT'].BASE.'/application/helpers/form.helper');
+	class Form_Model extends Form {
+		//public $authentication;
+		public function __construct()
+		{
+			//$this->authentication = new Authentication;
+		}
+
+		public function init(){
+			ob_start();
+			session_start();
+		}
+	}
+

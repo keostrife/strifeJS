@@ -1,0 +1,7 @@
+<?php
+
+if($strife_request[1] == 'home' && $strife_request[2] == 'info'){
+	//handling http://example.com/home/info/
+} else {
+	$strife->not_found_404();
+}
